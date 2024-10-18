@@ -1,7 +1,9 @@
 import { IconSearch } from '@tabler/icons-react'
 
 
-export default function SearchInput() {
+export default function SearchInput({
+  onChange
+}:{onChange:(value:string) => void}) {
   return (
     <div
       className='flex overflow-hidden shadow-md rounded-xl'
@@ -19,6 +21,7 @@ export default function SearchInput() {
         type='text'
         placeholder='Search'
         className='w-64 h-10 outline-none '
+        onChange={(e) => onChange(e.target.value)}
       />
     </div>
   )

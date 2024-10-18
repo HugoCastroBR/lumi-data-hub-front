@@ -2,7 +2,9 @@ import YearFilterItem from '../atoms/YearFilterItem'
 import SearchInput from '../atoms/SearchInput'
 import UploadFileBtn from '../molecules/UploadFileBtn'
 
-export default function HomeOptions() {
+export default function HomeOptions({
+  onSearch
+}:{onSearch: (value: string) => void}) {
   return (
     <div
       className='flex flex-row items-center justify-between w-11/12 h-16 mb-2 '
@@ -14,7 +16,9 @@ export default function HomeOptions() {
         <YearFilterItem />
       </div>
       <div>
-        <SearchInput />
+        <SearchInput
+          onChange={onSearch}
+        />
       </div>
     </div>
   )
