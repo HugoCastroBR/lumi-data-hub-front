@@ -17,7 +17,7 @@ export default function HomeOptions({ onSearch, onFileUpload }: HomeOptionsProps
         <UploadFileBtn
           onFileUpload={onFileUpload}
         />
-        {Array.from({ length: 5 }, (_, i) => (
+        {Array.from({ length: 4 }, (_, i) => (
           <YearFilterItem
             key={i}
             year={2020 + i}

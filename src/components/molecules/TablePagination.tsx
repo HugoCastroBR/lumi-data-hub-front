@@ -38,7 +38,7 @@ export default function TablePagination({
 }: TablePaginationProps) {
   return (
     <div
-      className='flex items-center justify-center w-full h-full bg-red-100'
+      className='flex items-center justify-center w-full h-full'
     >
       <PageItem
         text='<'

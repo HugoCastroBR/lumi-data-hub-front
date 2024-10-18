@@ -42,7 +42,7 @@ export default function Home() {
         onSearch={setSearch}
         onFileUpload={() => {
           getUcs();
-        }} // Passa a função para HomeOptions
+        }} 
       />
       <Table
         ucs={ucs}

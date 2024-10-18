@@ -43,9 +43,6 @@ function TableItemFileRow({ files }: ITableItemFileRow) {
           <div 
           className={`${fileExists ? "cursor-pointer" : "cursor-default"} w-1/12`} 
           key={month}
-          onClick={() => {
-            console.log(files[monthIndex].filename);
-          }}
           >
             <IconFileFilled className={fileExists ? "" : "text-gray-400"} />
           </div>
@@ -80,7 +77,6 @@ export default function TableItem({
       setFiles(newFiles);
       return newFiles
     }
-    console.log(files)
   };
 
   useEffect(() => {

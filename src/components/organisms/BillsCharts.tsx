@@ -11,29 +11,32 @@ interface IBillCharts {
 }
 
 export default function BillsCharts({ billsData }: IBillCharts) {
+  const sortedBillsData = [...billsData].sort((a, b) => {
+    if (a.year !== b.year) {
+      return a.year - b.year;
+    }
+    return a.month - b.month;
+  });
 
-  const billsWithCalculations = billsData.map(bill => ({
+  const billsWithCalculations = sortedBillsData.map(bill => ({
     ...bill,
     totalWithoutGD: bill.electricityCost + bill.electricitySceeCost + bill.electricityPublicCost,
     gdrSaving: bill.electricityCompensatedCost,
   }));
 
-
-
-
   const energyData = {
-    labels: billsData.map(bill => `${bill.month}/${bill.year}`),
+    labels: sortedBillsData.map(bill => `${bill.month}/${bill.year}`),
     datasets: [
       {
         label: 'Consumo de Energia Elétrica (kWh)',
-        data: billsData.map(bill => bill.electricity),
+        data: sortedBillsData.map(bill => bill.electricity),
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1,
       },
       {
         label: 'Energia Compensada (kWh)',
-        data: billsData.map(bill => bill.electricityCompensated),
+        data: sortedBillsData.map(bill => bill.electricityCompensated),
         backgroundColor: 'rgba(255, 159, 64, 0.6)',
         borderColor: 'rgba(255, 159, 64, 1)',
         borderWidth: 1,
@@ -41,15 +44,13 @@ export default function BillsCharts({ billsData }: IBillCharts) {
     ],
   };
 
-  const totalElectricity = billsData.reduce((acc, bill) => acc + bill.electricity, 0);
-  const totalCompensated = billsData.reduce((acc, bill) => acc + bill.electricityCompensated, 0);
+  const totalElectricity = sortedBillsData.reduce((acc, bill) => acc + bill.electricity, 0);
+  const totalCompensated = sortedBillsData.reduce((acc, bill) => acc + bill.electricityCompensated, 0);
   const totalCostWithoutGD = billsWithCalculations.reduce((acc, bill) => acc + bill.totalWithoutGD, 0);
   const totalGdrSaving = billsWithCalculations.reduce((acc, bill) => acc + bill.gdrSaving, 0);
-  const totalEconomyGD = billsWithCalculations.reduce((acc, bill) => acc + bill.gdrSaving, 0);
-
 
   const financialData = {
-    labels: billsData.map(bill => `${bill.month}/${bill.year}`),
+    labels: sortedBillsData.map(bill => `${bill.month}/${bill.year}`),
     datasets: [
       {
         label: 'Valor Total sem GD (R$)',
@@ -75,13 +76,12 @@ export default function BillsCharts({ billsData }: IBillCharts) {
     ],
   };
 
-
   const pricePerKWhData = {
-    labels: billsData.map(bill => `${bill.month}/${bill.year}`),
+    labels: sortedBillsData.map(bill => `${bill.month}/${bill.year}`),
     datasets: [
       {
         label: 'Preço por kWh (R$)',
-        data: billsData.map(bill => (bill.electricityCost / bill.electricity).toFixed(2)),
+        data: sortedBillsData.map(bill => (bill.electricityCost / bill.electricity).toFixed(2)),
         backgroundColor: 'rgba(255, 99, 132, 0.6)',
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1,
@@ -90,31 +90,30 @@ export default function BillsCharts({ billsData }: IBillCharts) {
     ],
   };
 
-  const averageConsumption = billsData.reduce((acc, bill) => acc + bill.electricity, 0) / billsData.length;
-  const averageCost = billsData.reduce((acc, bill) => acc + bill.electricityCost, 0) / billsData.length;
+  const monthlyData = sortedBillsData.reduce((acc, bill) => {
+    const monthYear = `${bill.month}/${bill.year}`;
+    if (!acc[monthYear]) {
+      acc[monthYear] = { totalConsumption: 0, totalCost: 0, count: 0 };
+    }
+    acc[monthYear].totalConsumption += bill.electricity;
+    acc[monthYear].totalCost += bill.electricityCost;
+    acc[monthYear].count += 1;
+    return acc;
+  }, {} as Record<string, { totalConsumption: number; totalCost: number; count: number }>);
 
-
-  
   const averageConsumptionData = {
-    labels: ['Média'],
+    labels: Object.keys(monthlyData),
     datasets: [
       {
         label: 'Média de Consumo (kWh)',
-        data: [averageConsumption.toFixed(2)],
+        data: Object.values(monthlyData).map(data => (data.totalConsumption / data.count).toFixed(2)),
         backgroundColor: 'rgba(54, 235, 162, 0.6)',
         borderColor: 'rgba(54, 235, 162, 1)',
         borderWidth: 1,
-      },
-      {
-        label: 'Média de Custo (R$)',
-        data: [averageCost.toFixed(2)],
-        backgroundColor: 'rgba(255, 206, 86, 0.6)',
-        borderColor: 'rgba(255, 206, 86, 1)',
-        borderWidth: 1,
+        fill: false,
       },
     ],
   };
-
 
   return (
     <div className="flex flex-col items-center">
@@ -136,7 +135,8 @@ export default function BillsCharts({ billsData }: IBillCharts) {
       <div className="w-10/12 mb-8">
         <h2 className="mb-4 text-2xl font-semibold">Valor Total sem GD, Economia GD e Custo Total (R$) em linha</h2>
         <Line
-          data={financialData}options={{responsive: true,plugins: {legend: { position: 'top' },},
+          data={financialData} options={{
+            responsive: true, plugins: { legend: { position: 'top' } },
             scales: {
               y: {
                 beginAtZero: true,
@@ -149,11 +149,10 @@ export default function BillsCharts({ billsData }: IBillCharts) {
         <h2 className="mb-4 text-2xl font-semibold">Preço por kWh (R$)</h2>
         <Line data={pricePerKWhData} options={{ responsive: true, plugins: { legend: { position: 'top' } } }} />
       </div>
-      <div className="w-10/12">
-        <h2 className="mb-4 text-2xl font-semibold">Média de Consumo e Custo</h2>
-        <Bar data={averageConsumptionData} options={{ responsive: true, plugins: { legend: { position: 'top' } } }} />
+      <div className="w-10/12 mb-8">
+        <h2 className="mb-4 text-2xl font-semibold">Média de Consumo (kWh)</h2>
+        <Line data={averageConsumptionData} options={{ responsive: true, plugins: { legend: { position: 'top' } } }} />
       </div>
     </div>
   );
 }
-

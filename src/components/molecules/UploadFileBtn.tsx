@@ -3,19 +3,17 @@ import { createBill } from "../api/bill";
 
 export default function UploadFileBtn({
   onFileUpload
-}:{onFileUpload: () => void }) {
+}: { onFileUpload: () => void }) {
 
   const handleSubmit = async (file: File) => {
     if (!file) {
-      console.log(file)
       console.error("Nenhum arquivo selecionado.");
       return;
     }
-    
+
     const createdBill = await createBill(file);
 
     if (createdBill) {
-      console.log('Fatura criada com sucesso:', createdBill);
       onFileUpload();
     } else {
       console.error('Falha ao criar a fatura');
@@ -24,8 +22,10 @@ export default function UploadFileBtn({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const selectedFile = e.target.files[0];
-      handleSubmit(selectedFile); 
+      const files = Array.from(e.target.files);
+      files.forEach(file => {
+        handleSubmit(file); 
+      });
     }
   };
 
@@ -47,8 +47,9 @@ export default function UploadFileBtn({
         type="file"
         accept=".pdf"
         className="inset-0 w-full h-full cursor-pointer opacity-40"
-        onChange={handleFileChange} 
+        onChange={handleFileChange}
         hidden
+        multiple 
       />
     </div>
   );
