@@ -37,4 +37,7 @@ const getSpecificUc = async (id: number): Promise<GetUcByIdResponse> => {
   }
 };
 
+
+
+
 export { GetAllUc,getSpecificUc };

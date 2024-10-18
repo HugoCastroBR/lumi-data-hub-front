@@ -6,36 +6,32 @@ import { GetAllUc } from '../api/uc';
 import { UC } from '../utils/types';
 import handlerFilters from '../utils/handlerFilters';
 
-export default function Table({ search }: { search: string }) {
-  const [ucs, setUcs] = useState<UC[]>([]);
-  const [page, setPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
-  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
-  const [orderBy, setOrderBy] = useState<string>('');
+interface ITable {
+  ucs: UC[];
+  page: number;
+  totalPages: number;
+  setPage: (page: number) => void;
+  setOrderBy: (orderBy: string) => void;
+  setOrder: (order: 'asc' | 'desc') => void;
+  handlerFilterChange: (order: 'asc' | 'desc', orderBy: string) => void;
+  search: string;
+}
 
-  const getUcs = async () => {
-    const json = await GetAllUc({ page, order, orderby: orderBy, search });
-    if (json) {
-      setTotalPages(json.totalPages || 1);
-      setUcs(json.data || []);
-    }
-  };
-
-  useEffect(() => {
-    getUcs();
-  }, [search, page, order, orderBy]);
-
-  const handlerFilterChange = async (order: 'asc' | 'desc', orderBy: string) => {
-    const json = await GetAllUc({ page, order, orderby: handlerFilters(orderBy), search });
-    if (json) {
-      setTotalPages(json.totalPages || 1);
-      setUcs(json.data || []);
-    }
-  };
+export default function Table({ 
+  ucs, 
+  page, 
+  totalPages, 
+  setPage, 
+  setOrderBy, 
+  setOrder, 
+  handlerFilterChange,
+ }:ITable) {
+  
 
   const RenderTableItems = () => (
     ucs.map((uc: UC, index: number) => (
       <TableItem
+        id={uc.id}
         key={index}
         number={index + 1}
         clientName={uc.client.name}

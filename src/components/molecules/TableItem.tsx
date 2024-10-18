@@ -2,8 +2,10 @@ import { useEffect, useState } from "react"
 import ItemCol from "../atoms/TableItemCol"
 import { IconFileFilled } from "@tabler/icons-react"
 import { Bill } from "../utils/types"
+import { useNavigate } from "react-router-dom"
 
 interface ITableItem {
+  id: number
   number: number
   name: string
   ucRegisterN: number
@@ -59,9 +61,11 @@ export default function TableItem({
   clientName,
   ucRegisterN,
   distribuidora = 'CEMIG',
-  bills
+  bills,
+  id
 }: ITableItem) {
 
+  const navigate = useNavigate();
   const [files, setFiles] = useState<ITableItemFileRow>()
 
   const billsToFiles = () => {
@@ -86,8 +90,13 @@ export default function TableItem({
   return (
     <div className={`
       'flex flex-row items-center justify-between w-full h-12
+      cursor-pointer hover:bg-white
       ${number % 2 === 0 ? 'bg-gray-200' : 'bg-gray-100'}
-    `}>
+    `}
+      onClick={() => {
+        navigate(`/dashboard/${id}`);
+      }}
+    >
       <div className='flex flex-row items-center h-full'>
         <ItemCol value={name} />
         <ItemCol value={ucRegisterN} />

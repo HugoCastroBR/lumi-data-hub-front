@@ -6,10 +6,12 @@ import BillsStats, { BillStatsProps } from "../organisms/BillsStats";
 import BillsCharts from '../organisms/BillsCharts';
 import { getSpecificUc } from '../api/uc';
 import {transformBillToBillStats} from '../utils/functions'
+import { useParams } from 'react-router-dom';
 
 export default function Dashboard() {
   const [billsData, setBillsData] = useState<BillStatsProps[]>([]); 
   const [selectedBill, setSelectedBill] = useState<BillStatsProps | null>(null); 
+  const { ucid } = useParams();
 
   const handleCardClick = (bill: BillStatsProps) => {
     setSelectedBill(bill); 
@@ -24,8 +26,11 @@ export default function Dashboard() {
   
 
   useEffect(() => {
-    fetchSpecificUC(5)
-  }, []);
+    if(ucid){
+      fetchSpecificUC(parseInt(ucid));
+    }
+  }, [ucid]);
+
 
   return (
     <main className="flex flex-col items-center">

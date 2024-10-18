@@ -28,9 +28,11 @@ const BillStats = ({
   const totalElectricity = electricity + electricityScee;
   const totalCostWithoutGD = electricityCost + electricitySceeCost + electricityPublicCost;
   const economyGD = electricityCompensatedCost;
+  const totalCost = totalCostWithoutGD + economyGD;
 
   return (
-    <div className="p-4 bg-white shadow-md rounded-xl">
+    <div className="flex items-center justify-center w-full h-full">
+      <div className="w-11/12 p-4 bg-white shadow-md rounded-xl">
       <h2 className="text-lg font-bold">
         Estatísticas de Conta - {month}/{year}
       </h2>
@@ -51,7 +53,12 @@ const BillStats = ({
           <span>Economia GD (R$):</span>
           <span>R$ {economyGD.toFixed(2)}</span>
         </div>
+        <div className="flex justify-between">
+          <span>Total (R$):</span>
+          <span>R$ {totalCost.toFixed(2)}</span>
+        </div>
       </div>
+    </div>
     </div>
   );
 };
