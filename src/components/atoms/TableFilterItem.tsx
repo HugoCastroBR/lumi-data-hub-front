@@ -1,53 +1,61 @@
-import React from 'react'
-import { 
-  IconSortAscending,
-  IconSortDescending,
-} from '@tabler/icons-react'
+import React from 'react';
+import { IconSortAscending, IconSortDescending,IconFilter } from '@tabler/icons-react';
 
-interface IFilterItem{
-  alias?: string
-  name: string,
-  type?: 'text' | 'number',
-  sortable?: boolean
+interface IFilterItem {
+  alias?: string;
+  name: string;
+  type?: 'text' | 'number';
+  sortable?: boolean;
+  selected?: boolean;
+  onClick?: (order: 'asc' | 'desc', orderBy: string) => void;
 }
+
 export default function FilterItem({
   alias,
   name,
-  type='text',
-  sortable=true
-}:IFilterItem){
+  type = 'text',
+  sortable = true,
+  selected = false,
+  onClick,
+}: IFilterItem) {
+  const [isAscending, setIsAscending] = React.useState(true);
 
-  const [isAscending, setIsAscending] = React.useState(true)
   const handlerOrder = () => {
-    setIsAscending(!isAscending)
-  }
+    const order = isAscending ? 'asc' : 'desc';
+    setIsAscending(!isAscending);
+    onClick && onClick(order, name);
+  };
 
   return (
-    <div className='flex flex-row items-center justify-center w-1/6 h-16 cursor-pointer '
+    <div
+      className={`flex flex-row items-center justify-center w-1/6 h-16 ${sortable ? 'cursor-pointer' : 'cursor-auto'} ${selected ? 'bg-highlight' : ''}`}
       onClick={handlerOrder}
     >
-      {
+      {sortable && !selected && (
+          <IconFilter
+            size={20}
+            stroke={1.5}
+            className='text-white'
+          />
+      )}
+      {sortable && selected && (
         isAscending ? (
           <IconSortAscending
-            size={24}
+            size={20}
             stroke={1.5}
-            className='text-white '
-            onClick={()=>setIsAscending(false)}
+            className='text-white'
           />
         ) : (
           <IconSortDescending
-            size={24}
+            size={20}
             stroke={1.5}
-            className='text-white '
-            onClick={()=>setIsAscending(true)}
+            className='text-white'
           />
         )
-      }
-      <p
-        className='font-semibold text-white text-md'
-      >
+      )}
+      <p className="font-semibold text-white ml text-md">
         {alias || name}
       </p>
     </div>
-  )
+  );
 }
