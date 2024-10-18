@@ -1,6 +1,8 @@
-import { GetUcResponse } from "../utils/types";
+import { GetUcResponse, UC } from "../utils/types";
 
 const api = 'http://localhost:8080/';
+
+export type GetUcByIdResponse = UC | null;
 
 interface IGetAllUc {
   page: number;
@@ -22,4 +24,17 @@ const GetAllUc = async ({ page = 1, order = 'asc', orderby = 'id', search = '' }
   }
 };
 
-export { GetAllUc };
+const getSpecificUc = async (id: number): Promise<GetUcByIdResponse> => {
+  try {
+    const response = await fetch(`${api}ucs/${id}`);
+    if (!response.ok) throw new Error('Failed to fetch data');
+    
+    const data = await response.json();
+    return data as GetUcByIdResponse;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export { GetAllUc,getSpecificUc };
