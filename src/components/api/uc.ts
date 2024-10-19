@@ -9,11 +9,21 @@ interface IGetAllUc {
   order: 'asc' | 'desc';
   orderby: string;
   search: string;
+  year: number;
 }
 
-const GetAllUc = async ({ page = 1, order = 'asc', orderby = 'id', search = '' }: IGetAllUc) => {
+const GetAllUc = async ({ 
+  page = 1, 
+  order = 'asc',
+  orderby = 'id',
+  search = '',
+  year = 2024
+
+}: IGetAllUc) => {
   try {
-    const response = await fetch(`${api}ucs?page=${page}&order=${order}&orderby=${orderby}${search?`&search=${search}`:''}`);
+    const response = await fetch(
+      `${api}ucs?page=${page}&order=${order}&orderby=${orderby}${search?`&search=${search}`:''}&year=${year}`
+    );
     if (!response.ok) throw new Error('Failed to fetch data');
     
     const data = await response.json();

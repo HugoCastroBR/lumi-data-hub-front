@@ -11,6 +11,9 @@ import { useParams } from 'react-router-dom';
 export default function Dashboard() {
   const [billsData, setBillsData] = useState<BillStatsProps[]>([]); 
   const [selectedBill, setSelectedBill] = useState<BillStatsProps | null>(null); 
+  const [registerN, setRegisterN] = useState<string>("");
+  const [clientName, setClientName] = useState<string>("");
+  const [clientRegisterN, setClientRegisterN] = useState<string>("");
   const { ucid } = useParams();
 
   const handleCardClick = (bill: BillStatsProps) => {
@@ -21,6 +24,9 @@ export default function Dashboard() {
     const res = await getSpecificUc(id);
     if (res?.bills) {
       setBillsData(res.bills.map(bill => transformBillToBillStats(bill)));
+      setClientName(res.client.name);
+      setRegisterN(res.registerN);
+      setClientRegisterN(res.client.registerN);
     }
   };
   
@@ -36,7 +42,11 @@ export default function Dashboard() {
     <main className="flex flex-col items-center">
       <Header />
       <div className="flex flex-col w-11/12 overflow-hidden bg-gray-100 shadow-md min-h-96 rounded-xl">
-        <DashBoardHeader />
+        <DashBoardHeader 
+          clientName={clientName}
+          registerN={registerN}
+          clientRegisterN={clientRegisterN}
+        />
         <div className="flex flex-wrap justify-center w-auto mt-6 mb-8 overflow-x-auto">
           {billsData.map(bill => (
             <BillCard

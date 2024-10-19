@@ -17,16 +17,15 @@ interface ITable {
   search: string;
 }
 
-export default function Table({ 
-  ucs, 
-  page, 
-  totalPages, 
-  setPage, 
-  setOrderBy, 
-  setOrder, 
+export default function Table({
+  ucs,
+  page,
+  totalPages,
+  setPage,
+  setOrderBy,
+  setOrder,
   handlerFilterChange,
- }:ITable) {
-  
+}: ITable) {
 
   const RenderTableItems = () => (
     ucs.map((uc: UC, index: number) => (
@@ -55,7 +54,15 @@ export default function Table({
         }}
       />
       <div className='w-full h-72'>
-        {RenderTableItems()}
+        {
+          ucs.length > 0 ? (
+            RenderTableItems()
+          ) : (
+            <div className='flex items-center justify-center w-full h-full'>
+              <h1 className='text-2xl font-bold text-gray-500'>Sem dados</h1>
+            </div>
+          )
+        }
       </div>
       <div className='w-full h-8 bg-gray-200'>
         <TablePagination page={page} totalPages={totalPages} />

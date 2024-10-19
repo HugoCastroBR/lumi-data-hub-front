@@ -24,6 +24,22 @@ export default function BillsCharts({ billsData }: IBillCharts) {
     gdrSaving: bill.electricityCompensatedCost,
   }));
 
+  const totalElectricity = sortedBillsData.reduce((acc, bill) => acc + bill.electricity, 0);
+  const totalCompensated = sortedBillsData.reduce((acc, bill) => acc + bill.electricityCompensated, 0);
+  const totalCostWithoutGD = billsWithCalculations.reduce((acc, bill) => acc + bill.totalWithoutGD, 0);
+  const totalGdrSaving = billsWithCalculations.reduce((acc, bill) => acc + bill.gdrSaving, 0);
+
+  const monthlyData = sortedBillsData.reduce((acc, bill) => {
+    const monthYear = `${bill.month}/${bill.year}`;
+    if (!acc[monthYear]) {
+      acc[monthYear] = { totalConsumption: 0, totalCost: 0, count: 0 };
+    }
+    acc[monthYear].totalConsumption += bill.electricity;
+    acc[monthYear].totalCost += bill.electricityCost;
+    acc[monthYear].count += 1;
+    return acc;
+  }, {} as Record<string, { totalConsumption: number; totalCost: number; count: number }>);
+
   const energyData = {
     labels: sortedBillsData.map(bill => `${bill.month}/${bill.year}`),
     datasets: [
@@ -44,10 +60,8 @@ export default function BillsCharts({ billsData }: IBillCharts) {
     ],
   };
 
-  const totalElectricity = sortedBillsData.reduce((acc, bill) => acc + bill.electricity, 0);
-  const totalCompensated = sortedBillsData.reduce((acc, bill) => acc + bill.electricityCompensated, 0);
-  const totalCostWithoutGD = billsWithCalculations.reduce((acc, bill) => acc + bill.totalWithoutGD, 0);
-  const totalGdrSaving = billsWithCalculations.reduce((acc, bill) => acc + bill.gdrSaving, 0);
+
+
 
   const financialData = {
     labels: sortedBillsData.map(bill => `${bill.month}/${bill.year}`),
@@ -90,16 +104,6 @@ export default function BillsCharts({ billsData }: IBillCharts) {
     ],
   };
 
-  const monthlyData = sortedBillsData.reduce((acc, bill) => {
-    const monthYear = `${bill.month}/${bill.year}`;
-    if (!acc[monthYear]) {
-      acc[monthYear] = { totalConsumption: 0, totalCost: 0, count: 0 };
-    }
-    acc[monthYear].totalConsumption += bill.electricity;
-    acc[monthYear].totalCost += bill.electricityCost;
-    acc[monthYear].count += 1;
-    return acc;
-  }, {} as Record<string, { totalConsumption: number; totalCost: number; count: number }>);
 
   const averageConsumptionData = {
     labels: Object.keys(monthlyData),
