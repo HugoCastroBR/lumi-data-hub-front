@@ -4,10 +4,10 @@ import BillCard from "../molecules/BillCard";
 import DashBoardHeader from "../molecules/DashboardHeader";
 import BillsStats from "../organisms/BillsStats";
 import BillsCharts from '../organisms/BillsCharts';
-import { getSpecificUc } from '../api/uc';
-import { transformBillToBillStats } from '../utils/functions'
+import { getSpecificUc } from '../../api/uc';
+import { transformBillToBillStats } from '../../utils/functions'
 import { useParams } from 'react-router-dom';
-import { BillStatsProps } from '../utils/interfaces';
+import { BillStatsProps } from '../../utils/interfaces';
 
 export default function Dashboard() {
   const [billsData, setBillsData] = useState<BillStatsProps[]>([]);

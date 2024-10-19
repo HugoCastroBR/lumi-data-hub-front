@@ -2,14 +2,15 @@ import React from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, Title, Tooltip, Legend, PointElement } from 'chart.js';
 import SummaryCard from '../molecules/SummaryCard';
-import { BillStatsProps, BillStatsWithCalculations } from '../utils/interfaces';
-import { 
-  calculateTotalCompensated, 
+import { BillStatsProps, BillStatsWithCalculations } from '../../utils/interfaces';
+import {
+  calculateTotalCompensated,
   calculateTotalCostWithoutGD,
-   calculateTotalElectricity,
-    calculateTotalGdrSaving,
-     groupMonthlyData,
-      sortBillsByDate } from '../utils/functions';
+  calculateTotalElectricity,
+  calculateTotalGdrSaving,
+  groupMonthlyData,
+  sortBillsByDate
+} from '../../utils/functions';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, Title, Tooltip, Legend, PointElement);
 
@@ -20,7 +21,7 @@ interface IBillCharts {
 export default function BillsCharts({ billsData }: IBillCharts) {
   const sortedBillsData = sortBillsByDate(billsData);
 
-  const billsWithCalculations:BillStatsWithCalculations[] = sortedBillsData.map(bill => ({
+  const billsWithCalculations: BillStatsWithCalculations[] = sortedBillsData.map(bill => ({
     ...bill,
     totalWithoutGD: bill.electricityCost + bill.electricitySceeCost + bill.electricityPublicCost,
     gdrSaving: bill.electricityCompensatedCost,
@@ -92,7 +93,6 @@ export default function BillsCharts({ billsData }: IBillCharts) {
       },
     ],
   };
-
 
   const averageConsumptionData = {
     labels: Object.keys(monthlyData),

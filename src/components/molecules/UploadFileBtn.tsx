@@ -1,5 +1,5 @@
 import { IconUpload } from "@tabler/icons-react";
-import { createBill } from "../api/bill";
+import { createBill } from "../../api/bill";
 
 export default function UploadFileBtn({
   onFileUpload
@@ -24,7 +24,7 @@ export default function UploadFileBtn({
     if (e.target.files) {
       const files = Array.from(e.target.files);
       files.forEach(file => {
-        handleSubmit(file); 
+        handleSubmit(file);
       });
     }
   };
@@ -49,7 +49,7 @@ export default function UploadFileBtn({
         className="inset-0 w-full h-full cursor-pointer opacity-40"
         onChange={handleFileChange}
         hidden
-        multiple 
+        multiple
       />
     </div>
   );

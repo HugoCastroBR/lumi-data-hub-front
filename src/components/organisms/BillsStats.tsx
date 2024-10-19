@@ -1,5 +1,5 @@
 import React from 'react';
-import { BillStatsProps } from '../utils/interfaces';
+import { BillStatsProps } from '../../utils/interfaces';
 
 
 const BillStats = ({
@@ -21,32 +21,32 @@ const BillStats = ({
   return (
     <div className="flex items-center justify-center w-full h-full">
       <div className="w-11/12 p-4 bg-white shadow-md rounded-xl">
-      <h2 className="text-lg font-bold">
-        Estatísticas de Conta - {month}/{year}
-      </h2>
-      <div className="mt-2">
-        <div className="flex justify-between">
-          <span>Consumo de Energia Elétrica (kWh):</span>
-          <span>{totalElectricity} kWh</span>
-        </div>
-        <div className="flex justify-between">
-          <span>Energia Compensada (kWh):</span>
-          <span>{electricityCompensated} kWh</span>
-        </div>
-        <div className="flex justify-between">
-          <span>Valor Total sem GD (R$):</span>
-          <span>R$ {totalCostWithoutGD.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between">
-          <span>Economia GD (R$):</span>
-          <span>R$ {economyGD.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between">
-          <span>Total (R$):</span>
-          <span>R$ {totalCost.toFixed(2)}</span>
+        <h2 className="text-lg font-bold">
+          Estatísticas de Conta - {month}/{year}
+        </h2>
+        <div className="mt-2">
+          <div className="flex justify-between">
+            <span>Consumo de Energia Elétrica (kWh):</span>
+            <span>{totalElectricity} kWh</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Energia Compensada (kWh):</span>
+            <span>{electricityCompensated} kWh</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Valor Total sem GD (R$):</span>
+            <span>R$ {totalCostWithoutGD.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Economia GD (R$):</span>
+            <span>R$ {economyGD.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Total (R$):</span>
+            <span>R$ {totalCost.toFixed(2)}</span>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };

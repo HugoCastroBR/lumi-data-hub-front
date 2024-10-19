@@ -1,4 +1,4 @@
-import { UC } from "../utils/types";
+import { UC } from "../../utils/types";
 import TableItem from "./TableItem";
 
 const RenderTableItems = (ucs: UC[]) => (

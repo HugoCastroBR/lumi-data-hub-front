@@ -1,7 +1,7 @@
 import React from 'react';
 import TableFilters from '../molecules/TableFilters';
 import TablePagination from '../molecules/TablePagination';
-import { UC } from '../utils/types';
+import { UC } from '../../utils/types';
 import TableItemsContainer from '../molecules/TableItemsContainer';
 
 interface ITable {

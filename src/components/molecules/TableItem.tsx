@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import ItemCol from "../atoms/TableItemCol"
 import { IconFileFilled } from "@tabler/icons-react"
-import { Bill } from "../utils/types"
+import { Bill } from "../../utils/types"
 import { useNavigate } from "react-router-dom"
 
 interface ITableItem {

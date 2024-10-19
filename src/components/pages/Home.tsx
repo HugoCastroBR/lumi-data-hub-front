@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Table from '../organisms/Table';
 import HomeOptions from '../organisms/HomeOptions';
 import Header from '../atoms/Header';
-import { GetAllUc } from '../api/uc';
-import { UC } from '../utils/types';
+import { GetAllUc } from '../../api/uc';
+import { UC } from '../../utils/types';
 
 export default function Home() {
   const [search, setSearch] = React.useState('');

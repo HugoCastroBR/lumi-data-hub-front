@@ -1,4 +1,4 @@
-import { truncateString } from "../utils/functions"
+import { truncateString } from "../../utils/functions"
 
 interface IItemCol {
   value: string | number
