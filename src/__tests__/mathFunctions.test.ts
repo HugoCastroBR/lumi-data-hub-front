@@ -1,4 +1,4 @@
-import handlerOrderByFilters, {
+import {
   transformBillToBillStats,
   truncateString,
   calculateTotalElectricity,
@@ -6,8 +6,9 @@ import handlerOrderByFilters, {
   calculateTotalCostWithoutGD,
   calculateTotalGdrSaving,
   sortBillsByDate,
-  groupMonthlyData
-} from '../utils/functions'; // Substitua pelo caminho correto
+  groupMonthlyData,
+  handlerOrderByFilters
+} from '../utils/functions'; 
 import { BillStatsProps, BillStatsWithCalculations } from '../utils/interfaces';
 import { Bill } from '../utils/types';
 

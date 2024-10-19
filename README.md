@@ -1,46 +1,52 @@
-# Getting Started with Create React App
+# Lumi Data Hub (Front-End)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Desenvolvido para o teste de desenvolvedor Full Stack na Lumi. 
 
-## Available Scripts
+A aplicação tem o objetivo de ler arquivos PDFs de fatura de luz, armazenar dados relevantes no banco de dados e exibir através de uma interface intuitiva.
 
-In the project directory, you can run:
+A aplicação segue o conceito de Atomic Design, priorizando componentes reutilizáveis e bem definidos.Não foi utilizado Redux ou Context API, pois a gestão de estado local com React é suficiente para o escopo do projeto, tornando a aplicação mais simples e leve.
 
-### `npm start`
+## Configuração
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Para instalar as dependencias utilize:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+`npm install`
 
-### `npm test`
+Para iniciar o projeto utilize:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`npm run start`
 
-### `npm run build`
+## Utilização
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Existem duas rotas disponiveis
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Home em:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`/`
 
-### `npm run eject`
+Aqui acessar a biblioteca de faturas, além de poder filtrar e fazer pesquisas nas faturas ja cadastradas, para cadastrar uma fatura utilize o botão de upload(um pdf ou multiplos pdfs)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Dashboard em:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`/dashboard/:id`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+No  Dashboard é possivel acessar os dados de cada fatura (clicando no card do mês/ano da fatura), também é possivel acessar o Resumo de consumo e finanças e diversos graficos com informações uteis
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+***Atenção: A aplicação so funcionara corretamente se a api estiver sendo executada, por padrão(editavel em .env) na rota 8080.***
 
-## Learn More
+## Testes
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Testes unitarios para utilizar as formulas matematicas empregadas para garantir um retorno de dados preciso, além de garantir o funcionamento correto da aplicação.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Utilize:
+
+`npm run test`
+
+## Tecnologias Utilizadas:
+
+* **React** (Biblioteca para construção da interface)
+* **React Router** (Navegação entre as páginas)
+* **TailwindCSS** (Estilização)
+* **Chart.js** (Visualização de dados com gráficos)
+* **Typescript** (Tipagem estática)
+* **Jest** (Testes unitários)

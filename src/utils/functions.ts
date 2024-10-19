@@ -1,7 +1,7 @@
 import { BillStatsProps, BillStatsWithCalculations } from "./interfaces";
 import { Bill } from "./types";
 
-export default function handlerOrderByFilters(filterName: string) {
+export function handlerOrderByFilters(filterName: string) {
   switch (filterName) {
     case 'Name':
       return 'clientName';
@@ -13,7 +13,6 @@ export default function handlerOrderByFilters(filterName: string) {
       return 'id'; 
   }
 }
-
 
 export function transformBillToBillStats(bill: Bill): BillStatsProps {
   return {

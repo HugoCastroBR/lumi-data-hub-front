@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconSortAscending, IconSortDescending,IconFilter } from '@tabler/icons-react';
+import { IconSortAscending, IconSortDescending, IconFilter } from '@tabler/icons-react';
 
 interface IFilterItem {
   alias?: string;
@@ -32,11 +32,11 @@ export default function FilterItem({
       onClick={handlerOrder}
     >
       {sortable && !selected && (
-          <IconFilter
-            size={20}
-            stroke={1.5}
-            className='text-white'
-          />
+        <IconFilter
+          size={20}
+          stroke={1.5}
+          className='text-white'
+        />
       )}
       {sortable && selected && (
         isAscending ? (

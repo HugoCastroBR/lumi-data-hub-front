@@ -1,7 +1,6 @@
 import React from 'react';
 import { BillStatsProps } from '../../utils/interfaces';
 
-
 const BillStats = ({
   id,
   month,

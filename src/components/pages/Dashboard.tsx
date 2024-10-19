@@ -31,6 +31,7 @@ export default function Dashboard() {
     }
   };
   useEffect(() => {
+    document.title = 'Lumi - Dashboard';
     if (ucid) {
       fetchSpecificUC(parseInt(ucid));
     }
@@ -46,15 +47,17 @@ export default function Dashboard() {
           clientRegisterN={clientRegisterN}
         />
         <div className="flex flex-wrap justify-center w-auto mt-6 mb-8 overflow-x-auto">
-          {billsData.map(bill => (
-            <BillCard
-              key={bill.id}
-              month={bill.month}
-              year={bill.year}
-              onClick={() => handleCardClick(bill)}
-              isSelected={selectedBill?.id === bill.id}
-            />
-          ))}
+          {billsData
+            .sort((a, b) => a.month - b.month) 
+            .map(bill => (
+              <BillCard
+                key={bill.id}
+                month={bill.month}
+                year={bill.year}
+                onClick={() => handleCardClick(bill)}
+                isSelected={selectedBill?.id === bill.id}
+              />
+            ))}
         </div>
         {selectedBill &&
           <BillsStats
@@ -75,7 +78,6 @@ export default function Dashboard() {
           billsData={billsData}
         />
       </div>
-
     </main>
   );
 }

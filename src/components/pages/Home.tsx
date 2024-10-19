@@ -7,7 +7,6 @@ import { UC } from '../../utils/types';
 
 export default function Home() {
   const [search, setSearch] = React.useState('');
-
   const [ucs, setUcs] = useState<UC[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);

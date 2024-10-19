@@ -1,8 +1,5 @@
 
-
-const api = 'http://localhost:8080/';
-
-
+const api = process.env.api || 'http://localhost:8080/';
 
 export const createBill = async (file: File): Promise<any> => {
   try {
