@@ -1,10 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import TableFilters from '../molecules/TableFilters';
-import TableItem from '../molecules/TableItem';
 import TablePagination from '../molecules/TablePagination';
-import { GetAllUc } from '../api/uc';
 import { UC } from '../utils/types';
-import handlerFilters from '../utils/handlerFilters';
+import TableItemsContainer from '../molecules/TableItemsContainer';
 
 interface ITable {
   ucs: UC[];
@@ -27,42 +25,20 @@ export default function Table({
   handlerFilterChange,
 }: ITable) {
 
-  const RenderTableItems = () => (
-    ucs.map((uc: UC, index: number) => (
-      <TableItem
-        id={uc.id}
-        key={index}
-        number={index + 1}
-        clientName={uc.client.name}
-        ucRegisterN={Number(uc.registerN) || 0}
-        name={uc.client.name}
-        bills={uc.bills}
-      />
-    ))
-  );
+  const handleNewFilter = (order: "asc" | "desc", orderBy: string) => {
+    setOrder(order);
+    setOrderBy(orderBy);
+    handlerFilterChange(order, orderBy);
+    setPage(1);
+  };
 
   return (
     <div className='flex flex-col w-11/12 overflow-hidden bg-gray-100 shadow-md min-h-96 rounded-xl'>
       <TableFilters
-        onChange={(order, orderBy) => {
-          setOrderBy(orderBy);
-          if (order === 'asc' || order === 'desc') {
-            setOrder(order);
-            handlerFilterChange(order, orderBy);
-          }
-          setPage(1);
-        }}
+        onChange={handleNewFilter}
       />
       <div className='w-full h-72'>
-        {
-          ucs.length > 0 ? (
-            RenderTableItems()
-          ) : (
-            <div className='flex items-center justify-center w-full h-full'>
-              <h1 className='text-2xl font-bold text-gray-500'>Sem dados</h1>
-            </div>
-          )
-        }
+        <TableItemsContainer ucs={ucs} />
       </div>
       <div className='w-full h-8 bg-gray-200'>
         <TablePagination page={page} totalPages={totalPages} />

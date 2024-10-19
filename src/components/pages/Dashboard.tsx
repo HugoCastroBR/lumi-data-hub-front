@@ -2,22 +2,23 @@ import React, { useEffect, useState } from 'react';
 import Header from "../atoms/Header";
 import BillCard from "../molecules/BillCard";
 import DashBoardHeader from "../molecules/DashboardHeader";
-import BillsStats, { BillStatsProps } from "../organisms/BillsStats";
+import BillsStats from "../organisms/BillsStats";
 import BillsCharts from '../organisms/BillsCharts';
 import { getSpecificUc } from '../api/uc';
-import {transformBillToBillStats} from '../utils/functions'
+import { transformBillToBillStats } from '../utils/functions'
 import { useParams } from 'react-router-dom';
+import { BillStatsProps } from '../utils/interfaces';
 
 export default function Dashboard() {
-  const [billsData, setBillsData] = useState<BillStatsProps[]>([]); 
-  const [selectedBill, setSelectedBill] = useState<BillStatsProps | null>(null); 
+  const [billsData, setBillsData] = useState<BillStatsProps[]>([]);
+  const [selectedBill, setSelectedBill] = useState<BillStatsProps | null>(null);
   const [registerN, setRegisterN] = useState<string>("");
   const [clientName, setClientName] = useState<string>("");
   const [clientRegisterN, setClientRegisterN] = useState<string>("");
   const { ucid } = useParams();
 
   const handleCardClick = (bill: BillStatsProps) => {
-    setSelectedBill(bill); 
+    setSelectedBill(bill);
   };
 
   const fetchSpecificUC = async (id: number) => {
@@ -29,20 +30,17 @@ export default function Dashboard() {
       setClientRegisterN(res.client.registerN);
     }
   };
-  
-
   useEffect(() => {
-    if(ucid){
+    if (ucid) {
       fetchSpecificUC(parseInt(ucid));
     }
   }, [ucid]);
-
 
   return (
     <main className="flex flex-col items-center">
       <Header />
       <div className="flex flex-col w-11/12 overflow-hidden bg-gray-100 shadow-md min-h-96 rounded-xl">
-        <DashBoardHeader 
+        <DashBoardHeader
           clientName={clientName}
           registerN={registerN}
           clientRegisterN={clientRegisterN}
@@ -54,24 +52,24 @@ export default function Dashboard() {
               month={bill.month}
               year={bill.year}
               onClick={() => handleCardClick(bill)}
-              isSelected={selectedBill?.id === bill.id} 
+              isSelected={selectedBill?.id === bill.id}
             />
           ))}
         </div>
-        {selectedBill && 
+        {selectedBill &&
           <BillsStats
-          key={selectedBill.id}
-          id={selectedBill.id}
-          month={selectedBill.month}
-          year={selectedBill.year}
-          electricity={selectedBill.electricity}
-          electricityCost={selectedBill.electricityCost}
-          electricityScee={selectedBill.electricityScee}
-          electricitySceeCost={selectedBill.electricitySceeCost}
-          electricityCompensated={selectedBill.electricityCompensated}
-          electricityCompensatedCost={selectedBill.electricityCompensatedCost}
-          electricityPublicCost={selectedBill.electricityPublicCost}
-        />
+            key={selectedBill.id}
+            id={selectedBill.id}
+            month={selectedBill.month}
+            year={selectedBill.year}
+            electricity={selectedBill.electricity}
+            electricityCost={selectedBill.electricityCost}
+            electricityScee={selectedBill.electricityScee}
+            electricitySceeCost={selectedBill.electricitySceeCost}
+            electricityCompensated={selectedBill.electricityCompensated}
+            electricityCompensatedCost={selectedBill.electricityCompensatedCost}
+            electricityPublicCost={selectedBill.electricityPublicCost}
+          />
         }
         <BillsCharts
           billsData={billsData}

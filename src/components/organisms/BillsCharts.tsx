@@ -2,7 +2,14 @@ import React from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, Title, Tooltip, Legend, PointElement } from 'chart.js';
 import SummaryCard from '../molecules/SummaryCard';
-import { BillStatsProps } from './BillsStats';
+import { BillStatsProps, BillStatsWithCalculations } from '../utils/interfaces';
+import { 
+  calculateTotalCompensated, 
+  calculateTotalCostWithoutGD,
+   calculateTotalElectricity,
+    calculateTotalGdrSaving,
+     groupMonthlyData,
+      sortBillsByDate } from '../utils/functions';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, Title, Tooltip, Legend, PointElement);
 
@@ -11,34 +18,19 @@ interface IBillCharts {
 }
 
 export default function BillsCharts({ billsData }: IBillCharts) {
-  const sortedBillsData = [...billsData].sort((a, b) => {
-    if (a.year !== b.year) {
-      return a.year - b.year;
-    }
-    return a.month - b.month;
-  });
+  const sortedBillsData = sortBillsByDate(billsData);
 
-  const billsWithCalculations = sortedBillsData.map(bill => ({
+  const billsWithCalculations:BillStatsWithCalculations[] = sortedBillsData.map(bill => ({
     ...bill,
     totalWithoutGD: bill.electricityCost + bill.electricitySceeCost + bill.electricityPublicCost,
     gdrSaving: bill.electricityCompensatedCost,
   }));
 
-  const totalElectricity = sortedBillsData.reduce((acc, bill) => acc + bill.electricity, 0);
-  const totalCompensated = sortedBillsData.reduce((acc, bill) => acc + bill.electricityCompensated, 0);
-  const totalCostWithoutGD = billsWithCalculations.reduce((acc, bill) => acc + bill.totalWithoutGD, 0);
-  const totalGdrSaving = billsWithCalculations.reduce((acc, bill) => acc + bill.gdrSaving, 0);
-
-  const monthlyData = sortedBillsData.reduce((acc, bill) => {
-    const monthYear = `${bill.month}/${bill.year}`;
-    if (!acc[monthYear]) {
-      acc[monthYear] = { totalConsumption: 0, totalCost: 0, count: 0 };
-    }
-    acc[monthYear].totalConsumption += bill.electricity;
-    acc[monthYear].totalCost += bill.electricityCost;
-    acc[monthYear].count += 1;
-    return acc;
-  }, {} as Record<string, { totalConsumption: number; totalCost: number; count: number }>);
+  const totalElectricity = calculateTotalElectricity(sortedBillsData);
+  const totalCompensated = calculateTotalCompensated(sortedBillsData);
+  const totalCostWithoutGD = calculateTotalCostWithoutGD(billsWithCalculations);
+  const totalGdrSaving = calculateTotalGdrSaving(billsWithCalculations);
+  const monthlyData = groupMonthlyData(sortedBillsData);
 
   const energyData = {
     labels: sortedBillsData.map(bill => `${bill.month}/${bill.year}`),
@@ -59,9 +51,6 @@ export default function BillsCharts({ billsData }: IBillCharts) {
       },
     ],
   };
-
-
-
 
   const financialData = {
     labels: sortedBillsData.map(bill => `${bill.month}/${bill.year}`),

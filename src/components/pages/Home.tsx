@@ -3,7 +3,6 @@ import Table from '../organisms/Table';
 import HomeOptions from '../organisms/HomeOptions';
 import Header from '../atoms/Header';
 import { GetAllUc } from '../api/uc';
-import handlerFilters from '../utils/handlerFilters';
 import { UC } from '../utils/types';
 
 export default function Home() {
@@ -29,7 +28,7 @@ export default function Home() {
   }, [search, page, order, orderBy,year, getUcs]);
 
   const handlerFilterChange = async (order: 'asc' | 'desc', orderBy: string) => {
-    const json = await GetAllUc({ page, order, orderby: handlerFilters(orderBy), search,year });
+    const json = await GetAllUc({ page, order, orderby: orderBy, search,year });
     if (json) {
       setTotalPages(json.totalPages || 1);
       setUcs(json.data || []);

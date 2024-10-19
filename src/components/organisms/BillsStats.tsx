@@ -1,17 +1,6 @@
 import React from 'react';
+import { BillStatsProps } from '../utils/interfaces';
 
-export interface BillStatsProps {
-  id: number;
-  month: number;
-  year: number;
-  electricity: number;
-  electricityCost: number;
-  electricityScee: number;
-  electricitySceeCost: number;
-  electricityCompensated: number;
-  electricityCompensatedCost: number;
-  electricityPublicCost: number;
-}
 
 const BillStats = ({
   id,
@@ -29,7 +18,6 @@ const BillStats = ({
   const totalCostWithoutGD = electricityCost + electricitySceeCost + electricityPublicCost;
   const economyGD = electricityCompensatedCost;
   const totalCost = totalCostWithoutGD + economyGD;
-
   return (
     <div className="flex items-center justify-center w-full h-full">
       <div className="w-11/12 p-4 bg-white shadow-md rounded-xl">

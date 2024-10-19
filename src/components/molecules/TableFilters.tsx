@@ -3,7 +3,7 @@ import FilterItem from "../atoms/TableFilterItem";
 import TableMonths from "./TableMonths";
 
 interface ITableFilters {
-  onChange: (order: string, orderBy: string) => void;
+  onChange: (order: "asc" | "desc", orderBy: string) => void;
 }
 
 export default function TableFilters({ onChange }: ITableFilters) {

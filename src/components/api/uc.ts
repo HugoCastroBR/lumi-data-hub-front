@@ -1,3 +1,4 @@
+import handlerOrderByFilters from "../utils/functions";
 import { GetUcResponse, UC } from "../utils/types";
 
 const api = 'http://localhost:8080/';
@@ -20,9 +21,10 @@ const GetAllUc = async ({
   year = 2024
 
 }: IGetAllUc) => {
+  
   try {
     const response = await fetch(
-      `${api}ucs?page=${page}&order=${order}&orderby=${orderby}${search?`&search=${search}`:''}&year=${year}`
+      `${api}ucs?page=${page}&order=${order}&orderby=${handlerOrderByFilters(orderby)}${search?`&search=${search}`:''}&year=${year}`
     );
     if (!response.ok) throw new Error('Failed to fetch data');
     
